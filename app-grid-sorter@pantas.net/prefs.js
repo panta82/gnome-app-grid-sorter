@@ -1,0 +1,27 @@
+import Adw from 'gi://Adw';
+import Gtk from 'gi://Gtk';
+import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
+export default class AppPickerSorterPrefs extends ExtensionPreferences {
+  fillPreferencesWindow(window) {
+    const settings = this.getSettings();
+
+    const page = new Adw.PreferencesPage();
+    const group = new Adw.PreferencesGroup({ title: 'Sort Mode' });
+
+    const row = new Adw.ComboRow({
+      title: 'Sort applications by',
+      model: Gtk.StringList.new(['Manual', 'Alphabetical', 'Usage Frequency']),
+    });
+
+    const modes = ['manual', 'alphabetical', 'usage'];
+    row.selected = modes.indexOf(settings.get_string('sort-mode'));
+    row.connect('notify::selected', () => {
+      settings.set_string('sort-mode', modes[row.selected]);
+    });
+
+    group.add(row);
+    page.add(group);
+    window.add(page);
+  }
+}

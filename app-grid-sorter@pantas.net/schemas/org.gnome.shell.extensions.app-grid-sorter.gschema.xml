@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.app-grid-sorter"
+          path="/org/gnome/shell/extensions/app-grid-sorter/">
+    <key name="sort-mode" type="s">
+      <default>'manual'</default>
+      <summary>Sort mode</summary>
+      <description>How to sort: manual, alphabetical, usage</description>
+    </key>
+  </schema>
+</schemalist>
