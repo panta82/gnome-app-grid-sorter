@@ -1,6 +1,5 @@
 import GObject from 'gi://GObject';
 import Shell from 'gi://Shell';
-import GLib from 'gi://GLib';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js';
@@ -38,6 +37,7 @@ const SorterToggle = GObject.registerClass(
       this.menu.addMenuItem(prefsItem);
 
       this._patchCompareItems();
+      this._connectListeners();
     }
 
     _addMenuItem(label, mode) {
@@ -131,7 +131,14 @@ const SorterToggle = GObject.registerClass(
       }
     }
 
+    _connectListeners() {
+      this._settingsHandler = this._settings.connect('changed::sort-mode', () => {
+        this._resort();
+      });
+    }
+
     destroy() {
+      this._settings.disconnect(this._settingsHandler);
       this._injectionManager.clear();
       super.destroy();
     }
@@ -155,12 +162,40 @@ const SorterIndicator = GObject.registerClass(
 
 export default class AppPickerSorterExtension extends Extension {
   enable() {
-    this._indicator = new SorterIndicator(this);
-    Main.panel.statusArea.quickSettings.addExternalIndicator(this._indicator);
+    this._settings = this.getSettings();
+    
+    if (this._settings.get_boolean('show-in-quick-settings')) {
+      this._showIndicator();
+    }
+    
+    this._settingsHandler = this._settings.connect('changed::show-in-quick-settings', () => {
+      if (this._settings.get_boolean('show-in-quick-settings')) {
+        this._showIndicator();
+      } else {
+        this._hideIndicator();
+      }
+    });
+  }
+
+  _showIndicator() {
+    if (!this._indicator) {
+      this._indicator = new SorterIndicator(this);
+      Main.panel.statusArea.quickSettings.addExternalIndicator(this._indicator);
+    }
+  }
+
+  _hideIndicator() {
+    if (this._indicator) {
+      this._indicator.destroy();
+      this._indicator = null;
+    }
   }
 
   disable() {
-    this._indicator?.destroy();
-    this._indicator = null;
+    if (this._settingsHandler) {
+      this._settings.disconnect(this._settingsHandler);
+    }
+    this._hideIndicator();
+    this._settings = null;
   }
 }

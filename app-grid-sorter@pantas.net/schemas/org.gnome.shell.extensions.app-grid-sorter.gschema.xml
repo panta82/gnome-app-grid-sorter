@@ -7,5 +7,10 @@
       <summary>Sort mode</summary>
       <description>How to sort: manual, alphabetical, usage</description>
     </key>
+    <key name="show-in-quick-settings" type="b">
+      <default>true</default>
+      <summary>Show in Quick Settings</summary>
+      <description>Show sort controls in Quick Settings menu</description>
+    </key>
   </schema>
 </schemalist>

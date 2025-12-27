@@ -22,6 +22,20 @@ export default class AppPickerSorterPrefs extends ExtensionPreferences {
 
     group.add(row);
     page.add(group);
+
+    const uiGroup = new Adw.PreferencesGroup({ title: 'Interface' });
+
+    const switchRow = new Adw.SwitchRow({
+      title: 'Show in Quick Settings',
+      subtitle: 'Add sort controls to Quick Settings menu',
+    });
+    switchRow.active = settings.get_boolean('show-in-quick-settings');
+    switchRow.connect('notify::active', () => {
+      settings.set_boolean('show-in-quick-settings', switchRow.active);
+    });
+
+    uiGroup.add(switchRow);
+    page.add(uiGroup);
     window.add(page);
   }
 }
