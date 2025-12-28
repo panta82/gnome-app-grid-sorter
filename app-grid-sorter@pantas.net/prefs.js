@@ -11,10 +11,10 @@ export default class AppPickerSorterPrefs extends ExtensionPreferences {
 
     const row = new Adw.ComboRow({
       title: 'Sort applications by',
-      model: Gtk.StringList.new(['Manual', 'Alphabetical', 'Usage Frequency']),
+      model: Gtk.StringList.new(['Manual', 'Alphabetical', 'Usage', 'Last Update']),
     });
 
-    const modes = ['manual', 'alphabetical', 'usage'];
+    const modes = ['manual', 'alphabetical', 'usage', 'date-added'];
     row.selected = modes.indexOf(settings.get_string('sort-mode'));
     row.connect('notify::selected', () => {
       settings.set_string('sort-mode', modes[row.selected]);

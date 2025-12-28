@@ -5,7 +5,7 @@
     <key name="sort-mode" type="s">
       <default>'manual'</default>
       <summary>Sort mode</summary>
-      <description>How to sort: manual, alphabetical, usage</description>
+      <description>How to sort: manual, alphabetical, usage, date-added</description>
     </key>
     <key name="show-in-quick-settings" type="b">
       <default>true</default>
