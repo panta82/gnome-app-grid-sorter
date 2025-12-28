@@ -2,6 +2,8 @@
 
 A minimal GNOME Shell extension to sort app grid.
 
+![screenshot1.png](misc/screenshot1.png)
+
 ## Features
 
 - **Sort A-Z** - Alphabetical order
