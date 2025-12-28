@@ -61,16 +61,13 @@ const SorterToggle = GObject.registerClass(
             const file = Gio.File.new_for_path(path);
             const info = file.query_info('time::modified', Gio.FileQueryInfoFlags.NONE, null);
             const mtime = info.get_modification_time().tv_sec;
-            const mtimeMs = mtime * 1000;
-            log(`[AppGridSorter] ${appId}: ${path} -> mtime=${mtime} (${new Date(mtimeMs).toISOString()})`);
             return mtime;
           } catch (e) {
-            log(`[AppGridSorter] Error reading ${path}: ${e.message}`);
+            console.error(`[AppGridSorter] Error reading ${path}: ${e.message}`);
           }
         }
       }
 
-      log(`[AppGridSorter] ${appId}: Not found in any directory, returning 0`);
       return 0;
     }
 
@@ -107,7 +104,6 @@ const SorterToggle = GObject.registerClass(
         () => {
           return function(a, b) {
             const mode = settings.get_string('sort-mode');
-            log(`[AppGridSorter] _compareItems called with mode=${mode}, a.name=${a.name}, b.name=${b.name}`);
 
             try {
               if (mode === 'alphabetical') {
@@ -122,22 +118,18 @@ const SorterToggle = GObject.registerClass(
               }
 
               if (mode === 'date-added') {
-                log(`[AppGridSorter] DATE-ADDED BRANCH: Comparing by date`);
                 if (!a.id || !b.id) {
-                  log(`[AppGridSorter] DATE-ADDED: Missing id - a.id=${a.id}, b.id=${b.id}`);
                   return 0;
                 }
                 const aTime = getDesktopFileMtime(a.id);
                 const bTime = getDesktopFileMtime(b.id);
                 const result = bTime - aTime;
-                log(`[AppGridSorter] DATE-ADDED: Compare ${a.name} (${a.id}, mtime=${aTime}) vs ${b.name} (${b.id}, mtime=${bTime}) -> ${result}`);
                 return result;
               }
             } catch (e) {
-              log(`[AppGridSorter] Error in comparison: ${e}`);
+              console.error(`[AppGridSorter] Error in comparison: ${e}`);
             }
 
-            log(`[AppGridSorter] Returning 0 for mode=${mode}`);
             return 0;
           };
         }
@@ -190,13 +182,8 @@ const SorterToggle = GObject.registerClass(
     _resort() {
       if (!this._appDisplay) return;
 
-      log(`[AppGridSorter] _resort called, mode=${this._settings.get_string('sort-mode')}`);
-
       if (!this._appDisplay._pageManager?._updatingPages) {
-        log(`[AppGridSorter] Calling _redisplay`);
         this._appDisplay._redisplay();
-      } else {
-        log(`[AppGridSorter] Skipping _redisplay - pageManager is updating`);
       }
     }
 
@@ -232,7 +219,6 @@ const SorterIndicator = GObject.registerClass(
 
 export default class AppPickerSorterExtension extends Extension {
   enable() {
-    log('[AppGridSorter] Extension enabled');
     this._settings = this.getSettings();
 
     if (this._settings.get_boolean('show-in-quick-settings')) {
