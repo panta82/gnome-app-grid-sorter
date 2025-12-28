@@ -6,22 +6,12 @@ A minimal GNOME Shell extension to sort app grid.
 
 ## Features
 
-- **Sort A-Z** - Alphabetical order
-- **Sort by Usage** - Most used apps first (uses GNOME's built-in tracking)
-- **Sort by Last Update** - Apps sorted by installation/last modified date (newest first)
-- **Manual** - Default drag-and-drop behavior
-- **Quick Settings Toggle** - Access sort modes directly from Quick Settings
-- **Settings Panel** - Full preferences window for customization
-- **Toggle Quick Settings** - Option to hide Quick Settings integration
-
-## Installation
-
-```bash
-gnome-extensions install app-grid-sorter@pantas.net.shell-extension.zip
-gnome-extensions enable app-grid-sorter@pantas.net
-```
-
-Then log out and back in (Wayland) or press Alt+F2 → `r` (X11).
+- **Multiple Sort Modes**  
+  - A-Z - Alphabetical order
+  - By Usage - Most used apps first
+  - By Last Update - Newest installed/modified first
+  - Manual - Default drag-and-drop
+- **Quick Settings Toggle** - Toggle sort modes directly from Quick Settings. Can be disabled if you'd prefer using only the Plugin Settings.
 
 ## Usage
 
@@ -36,22 +26,30 @@ Then log out and back in (Wayland) or press Alt+F2 → `r` (X11).
 2. Find "App Grid Sorter"
 3. Click the gear icon
 4. Choose sort mode and toggle Quick Settings visibility
-
-## How It Works
-
-- Patches GNOME Shell's `_compareItems` and `_redisplay` functions
-- Uses official `Shell.AppUsage` API for usage tracking (no custom tracking needed)
-- Checks desktop file modification times for date-added sorting
-- Quick Settings integration with SystemIndicator for easy access
-- ~250 lines of code total
+5. Optionally, enable or disable the Quick Settings toggle
 
 ## Requirements
 
 - GNOME Shell 45, 46, 47, or 48
 
-## Development
+## Development workflow
 
-See [SPEC.md](SPEC.md) for technical details.
+Build and install:
+
+```bash
+./build.sh
+./install.sh
+```
+
+Then log out and back in (Wayland) or press Alt+F2 → `r` (X11).
+
+Uninstall with:
+
+```bash
+./uninstall.sh
+```
+
+Some CLI commands:
 
 ```bash
 # View logs
