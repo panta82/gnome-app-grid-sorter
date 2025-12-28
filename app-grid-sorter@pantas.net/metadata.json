@@ -4,5 +4,5 @@
   "description": "Sort app grid alphabetically, by usage frequency, or by the app's last update date.",
   "shell-version": ["45", "46", "47", "48"],
   "settings-schema": "org.gnome.shell.extensions.app-grid-sorter",
-  "url": "https://github.com/pantas/gnome-app-grid-sorter"
+  "url": "https://github.com/panta82/gnome-app-grid-sorter"
 }

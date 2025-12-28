@@ -11,7 +11,9 @@ A minimal GNOME Shell extension to sort app grid.
   - By Usage - Most used apps first
   - By Last Update - Newest installed/modified first
   - Manual - Default drag-and-drop
-- **Quick Settings Toggle** - Toggle sort modes directly from Quick Settings. Can be disabled if you'd prefer using only the Plugin Settings.
+- **Quick Settings Toggle**
+  - Toggle sort modes directly from Quick Settings.  
+  - Can be disabled if you'd prefer using only the Plugin Settings.
 
 ## Usage
 
